@@ -1,16 +1,16 @@
-type ALObjectHealth = {
+export type ALObjectHealth = {
 	type: ALObjectType;
 	percentUsedExtension: number;
 	percentUsedLicense: number;
 	quantityUsed: number;
 };
 
-type ALFieldHealth = {
+export type ALFieldHealth = {
 	percentUsed: number;
 	quantityUsed: number;
 };
 
-enum ALObjectType {
+export enum ALObjectType {
 	unknown,
 	table,
 	tableextension,
@@ -23,12 +23,18 @@ enum ALObjectType {
 	xmlport
 };
 
-type LicenseObject = {
+export type LicenseObject = {
 	type: ALObjectType;
 	id: number;
 };
 
-type ALObject = {
+export type PermissionReport = {
+	project: string;
+	licenseObjects: LicenseObject[];
+};
+
+export type ALObject = {
+	project: string;
 	id: number;
 	name: string;
 	extends: string;
@@ -39,14 +45,15 @@ type ALObject = {
 	withinLicense: boolean;
 };
 
-type IDRange = {
+export type IDRange = {
+	project: string;
 	fromID: number;
 	toID: number;
 	totalQty: number;
 	missingLicenseObject: LicenseObject[];
 };
 
-type ALField = {
+export type ALField = {
 	id: number;
 	name: string;
 };

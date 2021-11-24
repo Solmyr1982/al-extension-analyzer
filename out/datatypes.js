@@ -1,4 +1,6 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ALObjectType = void 0;
 var ALObjectType;
 (function (ALObjectType) {
     ALObjectType[ALObjectType["unknown"] = 0] = "unknown";
@@ -11,6 +13,6 @@ var ALObjectType;
     ALObjectType[ALObjectType["codeunit"] = 7] = "codeunit";
     ALObjectType[ALObjectType["query"] = 8] = "query";
     ALObjectType[ALObjectType["xmlport"] = 9] = "xmlport";
-})(ALObjectType || (ALObjectType = {}));
+})(ALObjectType = exports.ALObjectType || (exports.ALObjectType = {}));
 ;
 //# sourceMappingURL=datatypes.js.map

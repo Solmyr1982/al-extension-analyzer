@@ -1,77 +1,167 @@
-const angelMowersPromise = new Promise<string>((resolve, reject) => {
-    // a resolved promise after certain hours
-    setTimeout(() => {
-        resolve('We finished mowing the lawn');
-    }, 100000) // resolves after 100,000ms
-    reject("We couldn't mow the lawn");
-});
 
 
-const myPaymentPromise = new Promise<Record<string, number | string>>((resolve, reject) => {
-    // a resolved promise with  an object of 1000 Euro payment
-    // and a thank you message
-    setTimeout(() => {
-        resolve({
-            amount: 1000,
-            note: 'Thank You',
-        });
-    }, 100000);
-    // reject with 0 Euro and an unstatisfatory note
-    reject({
-        amount: 0,
-        note: 'Sorry Lawn was not properly Mowed',
-    });
-});
+/*
 
 
-angelMowersPromise
-    .then(() => myPaymentPromise.then(res => console.log(res)))
-    .catch(error => console.log(error));
+const baseApi = 'https://reqres.in/api/users?page=1';
 
 
 
-class TestSubClass {
-    doSubJob() {
 
-    }
+//let data: any;
+const fetchAllEmployees = async (url: string): Promise<number> => {
+	const response = await getURL(url);
+	const data = response;
+	return data;
+};
 
+
+async function getURL(params:string) {
+  let size = 100;
+  return size;
 }
 
-class TestParentClass {
+const generateEmail = (name: string): string => {
+	return `${name.split(' ').join('.')}@company.com`;
+};
 
-    finishJob(testSubClass: TestSubClass) {
+export const runAsyncFunctions = async () => {
+	try {
+		const employees = await fetchAllEmployees(baseApi);
+		Promise.all(
+			parseSize(employees)
 
-    };
+		);
+	} catch (error) {
+		;
+		console.log(error);
+	}
+};
 
-    doMainJob() {
-
-        let testSubClass = new TestSubClass();
-
-        const doMainJob = new Promise<void>((resolve) => {
-            testSubClass = new TestSubClass();
-            resolve();
-        });
-
-        const doSubJob = new Promise<void>((resolve) => {
-            //let testSubClass = new TestSubClass();
-            testSubClass.doSubJob();
-            resolve();
-        });
-
-        const finishTheJob = new Promise<void>((resolve) => {
-            //let testSubClass = new TestSubClass();
-            //testSubClass.doSubJob();
-            this.finishJob(testSubClass);
-            resolve();
-        });
-
-        doMainJob.then(() => doSubJob.then(() => finishTheJob));
-
-    }
-
-
-
-
-
-
+function parseSize(params: number) {
+	const emails = generateEmail(params.toString());
+  console.log('size of the respons');
+	return 'size of the respons: ' + params.toString();
 }
+*/
+
+/*
+import fetch from "node-fetch";
+
+interface Employee {
+	id: number
+	employee_name: string
+	employee_salary: number
+	employee_age: number
+	profile_image: string
+}
+
+let sSize: number;
+
+const baseApi = 'https://reqres.in/api/users?page=1';
+const userApi = 'https://reqres.in/api/user';
+
+
+
+
+//let data: any;
+const fetchAllEmployees = async (url: string): Promise<number> => {
+	const response = await fetch(url);
+	const data = await response.size;
+	return data;
+};
+
+const fetchEmployee = async (url: string, id: number): Promise<number> => {
+	const response = await fetch(`${url}/${id}`);
+	const data = await response.size;
+	return data;
+};
+const generateEmail = (name: string): string => {
+	return `${name.split(' ').join('.')}@company.com`;
+};
+
+export const runAsyncFunctions = async () => {
+	try {
+		const employees = await fetchAllEmployees(baseApi);
+		Promise.all(
+			parseSize(employees)
+
+		);
+	} catch (error) {
+		;
+		console.log(error);
+	}
+};
+
+function parseSize(params: number) {
+	const emails = generateEmail(params.toString());
+	return 'size of the respons: ' + params.toString();
+}
+
+*/
+
+/*
+                                                               ..                         
+                                                            .-=**-                        
+                                                          .-+***-.                        
+                                                        .:=*#*#+:.                        
+                                                     ..-+*#%%%#+:.                        
+    .                                              .:=**#%%%%%#*-.                        
+ .----:..                                        .:-*##%%%%%%%##=.                        
+ -*####**+=--:.                                .:=*##%%%%%%%%%%#+:                        
+.-*#%%%%%%%##**++=--::.         .::------:...:=+*##%%%%%%%%%%%%#*=.                       
+.-*%%%%%%%%%%%%%####***+==-::..-+*******#**++##%%%%%%%%%%%%%%%%##+:                       
+.-*#%%%%%%%%%%%%%%%%%%%#*##********#*******#%%%%%%%%%%%%%%%%%%%%#*=                       
+ :##%%%%%%%%%%%%%%%%%%%%%####%#***##%%%%###%%%%%%%%%%%%%%%%%%%%%##+.                      
+ .+*#%%%######%%%%%%%%%#%%%##%%#*##%%%%####%%%%%%%%%%%%%%%%%%%%%%#*-                      
+ .-**#%%####%%%%%%%%%%%%%#%%%%%%***###***#%%%%%%%%%%%%%%%%%%%%%%%##=                      
+  :**#%%%%%%%%%%#%%%%%%%%%%%%%#%##*******#%##########%%%%%%%%%%%%#*+.                     
+  .+*#%%%%%%%#%%%%%%%%%%%%%%%%##****+++===+**###############%%%%%%#*:                     
+  .:**%%%%%%%%%%%%%%%%%%%%%%%#*+=---:::::::::-==**##%%%%%%%%#%%#%###-                     
+   .**#%%%%%%%%%%%%%%%%%%%%#**=-::::::::::::::::::-==+++##**#******#-                     
+   .=*#%%%%%%%%%%##%%%%%%#**=-::::::::::::::::::::::::-::#@+........                      
+    :+#%%%%%%%%#%%%%%%##*=-:::::::::::::::::::::::::::.::.=%:                             
+    .-*#%%%%%%%%%%%%#*+-:::::::::::...::.::.::::.::...:.:: +@:                            
+     .+#%%%%%%%%%##++-::::::::::.-##**++-...:::::.-=%%+:.:..%+                            
+     .:*%%%%%%#*#*=::::.::.::::::::.-*%@@%*.::::.#@#=.:..::.*%:                           
+      .-##****=:#%-.::::::::::::::::....::-:::::.......::::.:%-                           
+        :---.. :#@=.:::::::::::::::.-+++-..:::::..+%@%:...:.:%=                           
+               -%@=...::::::::::::::*@@@@#...:::.:#@@%:.:.:.+@=                           
+               -%@%-.::::::::::::::.:=+++-:::::::.:::::.:::.=@=                           
+                #@@*:.::::::::::.:::::.::::::::::::.::::.::.#@:                           
+                *@@@+ .::::::::::::::::::::::::::::::::::::.%=                            
+                .#@@#:.:.::::::::::::::...::.:..:.:::::..: *#.                            
+                 +@@@*.::::::.:::::::.:+#%###%%#:.:.:.:::.=#.                             
+                  *@@@=.::::::::::::::#@@@%+*@@%:.:::.:.:*@-                              
+                  .*@@#:.:.::::::::::::::------:..:::..=%%=                               
+                   .*@@- ..:::::::::::::::::..:::::..=#@#:                                
+                    .-%%-..::::::::::::::::::::..:-*%@#-                       .          
+                      .=#*-...::::::::......:-=#%@@@#:                      -##=:         
+                     :**++*#+::::::::::-=*##%@@@%#+:     =+=:..           -#%*-+*         
+                  .=#@#=--=-=+*#%%%%%%%%%%%%#*=##.      +@*=%%%*+:.     :#@*:.+@*         
+                .+%%*=--==--=------------------%@=  .. -%@=   :-*#%%*+-*%+:  :@%-         
+                #@%+-=-=#%*--------------------#%@##%##@@%-       .:--=@*    -@%.         
+               .#@+----#%*--------------------=+%@%*==#@@=            +#.   .+@%          
+               -%+-==-+%*-----------------------#%%#==%@@-           .*%- =%%%@#          
+               -%=----=#%+-----------------------#%+=*@@-..          :#@*.=:.+@=          
+               :#=:----=#%#=------------------=--=*=-%@@*%@:         :#@#   -@#:          
+                *=-=-----+#%#+------------------==+*#@@@#+.          :#@*  .+@#           
+                -=----------+*#*++*++++++**#%%%%%%%%@@%:             .##. .*@@*           
+                 +=:------------===+********++=====:#%-            .=*%%++*%+:            
+                 ==------------=--=----------------=%%.         .-*@%*+=-:                
+                 =+=------------------------------:*@=       :=#@#+.                      
+                 -*=------------------------------:*%.    :*%%*-.   .:.                   
+                 -%*:-----------------------------:*%*.-#%@#*@=     *@=                   
+                 =%+:-------------------------------+**##+--#@-    -@+                    
+                 *@+:=---------------------------------=---#@*=+*#%@=                     
+                 *@+-=------------------------------------+@=:-====:                      
+                 :##==+====------------------------------+%*                              
+                  .:=**#%@@%%#+==----------------------:+%#:    =%+                       
+                        ..:=**%@@%#*+==----------------+%#: .--*@#:                       
+                              ...=*#%@%%#+==----------=%#+#%%@@@*:                        
+                                    ..:=*###%#++======%#:.:.:===.                         
+                                            ::-=+####%#:                                  
+*/
+
+
+

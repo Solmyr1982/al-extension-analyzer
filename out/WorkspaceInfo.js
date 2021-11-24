@@ -2,7 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-const ProjectInfo_1 = __importDefault(require("./ProjectInfo"));
+const projectinfo_1 = __importDefault(require("./projectinfo"));
 class WorkspaceInfo {
     constructor() {
         this.workspaceProjectsInfo = [];
@@ -19,43 +19,43 @@ class WorkspaceInfo {
     addProjectToCurrentWorkspace(projectInfo) {
         this.workspaceProjectsInfo.push(projectInfo);
     }
-    parseProjects() {
-        // does not work
-        this.workspaceFoldersURI.forEach((uri) => {
-            // let currProjectInfo = new ProjectInfo(uri);
-            // await currProjectInfo.parseprojectFiles(uri);
-            // this.workspaceProjectsInfo.push(currProjectInfo);
-            const createCurrProjectInfo = new Promise((resolve) => {
-                let currProjectInfo = new ProjectInfo_1.default(uri);
-                resolve(currProjectInfo);
-            }).then((abc) => (abc.parseprojectFiles(uri)));
+    calcAllProjectsValues() {
+        this.workspaceProjectsInfo.forEach((projectsInfo) => {
+            projectsInfo.calcprojectValues();
         });
-        // does not work at all
+    }
+    async parseProjects() {
         /*
-        this.workspaceFoldersURI.forEach(async (uri) => {
-            let currProjectInfo = new ProjectInfo(uri);
-
-            const createcurrProjectInfo = new Promise<void>((resolve) => {
-                currProjectInfo = new ProjectInfo(uri);
-                resolve();
-            });
-
-            const pareProject = new Promise<void>((resolve) => {
-                //let testSubClass = new TestSubClass();
-                currProjectInfo.parseprojectFiles(uri);
-                resolve();
-            });
-
-            const addCurrProjectToWorkspace = new Promise<void>((resolve) => {
-                //let testSubClass = new TestSubClass();
-                //testSubClass.doSubJob();
-                this.workspaceProjectsInfo.push(currProjectInfo);
-                resolve();
-            });
-
-            createcurrProjectInfo.then(() => pareProject.then(() => addCurrProjectToWorkspace));
-            
-        });*/
+                this.workspaceFoldersURI.forEach((uri) => {
+                    new Promise<ProjectInfo>((resolve) => {
+                        let currProjectInfo = new ProjectInfo(uri);
+                        resolve(currProjectInfo);
+                    }).then(async (result) => {
+                        await result.parseprojectFiles(uri);
+                        return new Promise<ProjectInfo>((resolve) => resolve(result));
+                    }).then((result) => {
+                        result.calcprojectValues();
+                        return new Promise<ProjectInfo>((resolve) => resolve(result));
+                    }).then((bcd) => this.workspaceProjectsInfo.push(bcd))
+                        .catch(a => console.log(a));
+                });
+        */
+        this.workspaceFoldersURI.forEach((uri) => {
+            console.log('1 creating new ProjectInfo for uri ' + uri.path);
+            new Promise((resolve) => {
+                let currProjectInfo = new projectinfo_1.default(uri);
+                resolve(currProjectInfo);
+            }).then(async (result) => {
+                console.log('2 starting to parse project ' + result.projectFolder);
+                await result.parseprojectFiles(uri);
+                return new Promise((resolve) => resolve(result));
+            }).then((bcd) => {
+                console.log('3 pushing project ' + bcd.projectFolder);
+                this.workspaceProjectsInfo.push(bcd);
+            })
+                .catch(a => console.log(a));
+        });
+        console.log('4 finished parsing uri\'s');
     }
 }
 module.exports = WorkspaceInfo;

@@ -3,6 +3,8 @@ import * as vscode from 'vscode';
 import { posix } from 'path';
 import { table } from 'console';
 import { TextDecoder } from 'util';
+import { ALObject, IDRange, ALObjectHealth, LicenseObject, ALObjectType, ALFieldHealth, ALField, PermissionReport } from './datatypes';
+
 
 class ProjectInfo {
     projectFolder: vscode.Uri;
@@ -125,9 +127,11 @@ class ProjectInfo {
                     if (name.indexOf('Permission Report Detailed') === 0) { this.parsePermissionReport(fileTextData); }
                     if (name.indexOf('.al') !== -1) { this.parseALFile(name, fileTextData); }
                     if (name === 'app.json') { this.parseAppFile(fileTextData); }
+                    console.log('2.1 checking file ' + name);
                 }
             }
             if (type === vscode.FileType.Directory) {
+                console.log('2.1 checking folder ' + name);
                 let path = folder.fsPath;
                 let uri = vscode.Uri.file(path + '/' + name);
                 await this.parseprojectFiles(uri);
@@ -151,8 +155,7 @@ class ProjectInfo {
             }
 
             if (inObjects) {
-                let alObjectType = {} as ALObjectType;
-                alObjectType = ALObjectType.unknown;
+                let alObjectType = ALObjectType.unknown;
 
                 if (line.indexOf('TableData') === 0) {
                     alObjectType = ALObjectType.table;

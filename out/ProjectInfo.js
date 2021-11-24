@@ -21,6 +21,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 const vscode = __importStar(require("vscode"));
 const path_1 = require("path");
 const util_1 = require("util");
+const datatypes_1 = require("./datatypes");
 class ProjectInfo {
     constructor(folder) {
         this.allALObjects = [];
@@ -53,7 +54,7 @@ class ProjectInfo {
         this.calcOverallHealth();
     }
     calcOverallHealth() {
-        for (var type in ALObjectType) {
+        for (var type in datatypes_1.ALObjectType) {
             let alObjectHealth = {};
             alObjectHealth.type = parseInt(type);
             alObjectHealth.quantityUsed = this.allALObjects.filter(function (el) {
@@ -94,9 +95,9 @@ class ProjectInfo {
         }
         for (var i = 0; i < this.idRanges.length; i++) {
             this.idRanges[i].missingLicenseObject = [];
-            for (var type in ALObjectType) {
-                if (parseInt(type) === ALObjectType.table || parseInt(type) === ALObjectType.page || parseInt(type) === ALObjectType.report ||
-                    parseInt(type) === ALObjectType.codeunit || parseInt(type) === ALObjectType.query || parseInt(type) === ALObjectType.xmlport) {
+            for (var type in datatypes_1.ALObjectType) {
+                if (parseInt(type) === datatypes_1.ALObjectType.table || parseInt(type) === datatypes_1.ALObjectType.page || parseInt(type) === datatypes_1.ALObjectType.report ||
+                    parseInt(type) === datatypes_1.ALObjectType.codeunit || parseInt(type) === datatypes_1.ALObjectType.query || parseInt(type) === datatypes_1.ALObjectType.xmlport) {
                     for (var j = this.idRanges[i].fromID; j <= this.idRanges[i].toID; j++) {
                         if (!this.licenseObjects.find(e => e.id === j && e.type === parseInt(type))) {
                             let licenseObject = {};
@@ -132,9 +133,11 @@ class ProjectInfo {
                     if (name === 'app.json') {
                         this.parseAppFile(fileTextData);
                     }
+                    console.log('2.1 checking file ' + name);
                 }
             }
             if (type === vscode.FileType.Directory) {
+                console.log('2.1 checking folder ' + name);
                 let path = folder.fsPath;
                 let uri = vscode.Uri.file(path + '/' + name);
                 await this.parseprojectFiles(uri);
@@ -156,24 +159,23 @@ class ProjectInfo {
                 return;
             }
             if (inObjects) {
-                let alObjectType = {};
-                alObjectType = ALObjectType.unknown;
+                let alObjectType = datatypes_1.ALObjectType.unknown;
                 if (line.indexOf('TableData') === 0) {
-                    alObjectType = ALObjectType.table;
+                    alObjectType = datatypes_1.ALObjectType.table;
                 }
                 if (line.indexOf('Report') === 0) {
-                    alObjectType = ALObjectType.report;
+                    alObjectType = datatypes_1.ALObjectType.report;
                 }
                 if (line.indexOf('Codeunit') === 0) {
-                    alObjectType = ALObjectType.codeunit;
+                    alObjectType = datatypes_1.ALObjectType.codeunit;
                 }
                 if (line.indexOf('Page') === 0) {
-                    alObjectType = ALObjectType.page;
+                    alObjectType = datatypes_1.ALObjectType.page;
                 }
                 if (line.indexOf('Query') === 0) {
-                    alObjectType = ALObjectType.xmlport;
+                    alObjectType = datatypes_1.ALObjectType.xmlport;
                 }
-                if (alObjectType !== ALObjectType.unknown) {
+                if (alObjectType !== datatypes_1.ALObjectType.unknown) {
                     line = line.replace(/[^\d\s]+/gi, "");
                     var lineParameters = line.split(" ");
                     var qty = 0;
@@ -222,7 +224,7 @@ class ProjectInfo {
                 objectParameters.shift();
                 alObject.id = parseInt(objectParameters[0]);
                 objectParameters.shift();
-                if (alObject.type === ALObjectType.pageextension || alObject.type === ALObjectType.tableextension || alObject.type === ALObjectType.reportextension) {
+                if (alObject.type === datatypes_1.ALObjectType.pageextension || alObject.type === datatypes_1.ALObjectType.tableextension || alObject.type === datatypes_1.ALObjectType.reportextension) {
                     objectParameters = objectParameters.join(" ").split("extends");
                     alObject.name = objectParameters[0].replace(/"/g, "");
                     alObject.extends = objectParameters[1].replace(/"/g, "");
@@ -238,7 +240,7 @@ class ProjectInfo {
                     alObject.extends = alObject.extends.trim();
                 }
             }
-            if (inObject && alObject.type === ALObjectType.tableextension) {
+            if (inObject && alObject.type === datatypes_1.ALObjectType.tableextension) {
                 var refinedLine = line.trim();
                 if (refinedLine === 'fields') {
                     inFields = true;
@@ -274,25 +276,25 @@ class ProjectInfo {
     convertTxtToEnum(txtType) {
         switch (txtType) {
             case 'table':
-                return ALObjectType.table;
+                return datatypes_1.ALObjectType.table;
             case 'tableextension':
-                return ALObjectType.tableextension;
+                return datatypes_1.ALObjectType.tableextension;
             case 'page':
-                return ALObjectType.page;
+                return datatypes_1.ALObjectType.page;
             case 'pageextension':
-                return ALObjectType.pageextension;
+                return datatypes_1.ALObjectType.pageextension;
             case 'report':
-                return ALObjectType.report;
+                return datatypes_1.ALObjectType.report;
             case 'reportextension':
-                return ALObjectType.reportextension;
+                return datatypes_1.ALObjectType.reportextension;
             case 'codeunit':
-                return ALObjectType.codeunit;
+                return datatypes_1.ALObjectType.codeunit;
             case 'query':
-                return ALObjectType.query;
+                return datatypes_1.ALObjectType.query;
             case 'xmlport':
-                return ALObjectType.xmlport;
+                return datatypes_1.ALObjectType.xmlport;
             default:
-                return ALObjectType.unknown;
+                return datatypes_1.ALObjectType.unknown;
         }
     }
     isLetter(str) {
@@ -312,4 +314,4 @@ class ProjectInfo {
 }
 ;
 module.exports = ProjectInfo;
-//# sourceMappingURL=ProjectInfo.js.map
+//# sourceMappingURL=projectinfo.js.map
